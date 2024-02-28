@@ -18,6 +18,8 @@ namespace CallRecordInsights.Models
 
         public IEnumerable<string> Tenants { get; init; }
 
+        public string SubscriptionTenantId { get; set; }
+
         public string Endpoint { get; set; }
 
         public CallRecordsGraphOptions() {}
@@ -31,6 +33,7 @@ namespace CallRecordInsights.Models
             Tenants = configurationSection.GetValue<string>(nameof(Tenants))?
                             .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                         ?? Enumerable.Empty<string>();
+            SubscriptionTenantId = configurationSection.GetValue<string>(nameof(SubscriptionTenantId));
             Endpoint = configurationSection.GetValue(nameof(Endpoint), GLOBAL_ENDPOINT)?.ToLowerInvariant();
             if (!ValidEndpoints.Contains(Endpoint))
                 throw new ArgumentException($"Invalid Endpoint {Endpoint}", nameof(configurationSection));

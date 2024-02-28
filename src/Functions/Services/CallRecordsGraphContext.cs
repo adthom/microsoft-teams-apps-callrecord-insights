@@ -513,6 +513,9 @@ namespace CallRecordInsights.Services
         /// <returns></returns>
         private string DefaultTenantFactory()
         {
+            if (graphOptions?.SubscriptionTenantId?.TryGetValidTenantIdGuid(out var subscriptionTenantId) == true)
+                return subscriptionTenantId.ToString();
+
             var token = credential.GetToken(
                     new TokenRequestContext(new[] { $"https://{graphOptions.Endpoint}/.default" }),
                     default)
